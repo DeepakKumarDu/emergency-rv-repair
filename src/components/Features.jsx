@@ -1,7 +1,25 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
+import { FaPlay, FaPause } from 'react-icons/fa'
+import { videos } from '../config/videos'
 
 const Features = () => {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const videoRef = useRef(null)
+
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play().catch(err => {
+          console.log('Video play error:', err)
+        })
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
   const features = [
     {
       title: 'Fast Response Time',
@@ -76,7 +94,7 @@ const Features = () => {
           ))}
         </div>
 
-        {/* Video Section Placeholder */}
+        {/* Video Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -84,16 +102,36 @@ const Features = () => {
           transition={{ duration: 0.8, delay: 0.4 }}
           className="mt-16"
         >
-          <div className="relative rounded-lg overflow-hidden border border-white/10 max-w-4xl mx-auto">
-            <div className="aspect-video bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-              <div className="text-center">
-                <div className="w-20 h-20 border-4 border-primary-gold rounded-full flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-8 h-8 text-primary-gold ml-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
-                  </svg>
-                </div>
-                <p className="text-white text-lg">Watch Our Service in Action</p>
-              </div>
+          <div className="relative rounded-lg overflow-hidden border border-white/10 max-w-4xl mx-auto group">
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              poster={videos.features.poster}
+              loop
+              muted
+              playsInline
+            >
+              <source src={videos.features.src} type="video/mp4" />
+            </video>
+            {/* Play/Pause Overlay */}
+            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+              <motion.button
+                onClick={toggleVideo}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="bg-white/20 backdrop-blur-md rounded-full p-6 border-2 border-white/30 hover:bg-white/30 transition-all duration-300"
+                aria-label={isPlaying ? 'Pause video' : 'Play video'}
+              >
+                {isPlaying ? (
+                  <FaPause className="text-white text-3xl" />
+                ) : (
+                  <FaPlay className="text-white text-3xl ml-1" />
+                )}
+              </motion.button>
+            </div>
+            {/* Video Title Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+              <h3 className="text-white text-xl font-semibold">Watch Our Service in Action</h3>
             </div>
           </div>
         </motion.div>

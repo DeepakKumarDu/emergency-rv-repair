@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaPhone, FaClock, FaMapMarkerAlt, FaPlay, FaPause } from 'react-icons/fa'
+import { videos, videoFallbacks } from '../config/videos'
 
 const Hero = () => {
   const [isPlaying, setIsPlaying] = useState(true)
@@ -45,23 +46,24 @@ const Hero = () => {
           muted
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
-          poster="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+          poster={videos.hero.poster}
           onError={(e) => {
             // Fallback to background image if video fails to load
             e.target.style.display = 'none'
           }}
         >
-          {/* Primary video source - Road/Highway video */}
-          <source src="https://videos.pexels.com/video-files/3045163/3045163-hd_1920_1080_30fps.mp4" type="video/mp4" />
-          {/* Alternative video sources */}
-          <source src="https://videos.pexels.com/video-files/2491284/2491284-hd_1920_1080_25fps.mp4" type="video/mp4" />
-          <source src="https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4" type="video/mp4" />
+          {/* Primary video source */}
+          <source src={videos.hero.src} type="video/mp4" />
+          {/* Alternative video sources for fallback */}
+          {videoFallbacks.hero.map((fallbackSrc, index) => (
+            <source key={index} src={fallbackSrc} type="video/mp4" />
+          ))}
         </video>
         {/* Fallback background image if video doesn't load */}
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80')",
+            backgroundImage: `url('${videos.hero.fallback}')`,
             display: 'none'
           }}
           id="video-fallback"

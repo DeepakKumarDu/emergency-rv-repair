@@ -1,8 +1,25 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { FaTools, FaAward, FaUsers, FaShieldAlt } from 'react-icons/fa'
+import { FaTools, FaAward, FaUsers, FaShieldAlt, FaPlay, FaPause } from 'react-icons/fa'
+import { videos } from '../config/videos'
 
 const WhyChooseUs = () => {
+  const [isPlaying, setIsPlaying] = useState(false)
+  const videoRef = useRef(null)
+
+  const toggleVideo = () => {
+    if (videoRef.current) {
+      if (isPlaying) {
+        videoRef.current.pause()
+      } else {
+        videoRef.current.play().catch(err => {
+          console.log('Video play error:', err)
+        })
+      }
+      setIsPlaying(!isPlaying)
+    }
+  }
+
   const features = [
     {
       icon: FaTools,
@@ -68,12 +85,55 @@ const WhyChooseUs = () => {
           ))}
         </div>
 
-        {/* Stats Section */}
+        {/* Video Section */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
+          className="mt-16 mb-16"
+        >
+          <div className="relative rounded-lg overflow-hidden border border-white/10 max-w-5xl mx-auto group">
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              poster={videos.services.poster}
+              loop
+              muted
+              playsInline
+            >
+              <source src={videos.services.src} type="video/mp4" />
+            </video>
+            {/* Play/Pause Overlay */}
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-all duration-300 flex items-center justify-center">
+              <motion.button
+                onClick={toggleVideo}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                className="bg-white/20 backdrop-blur-md rounded-full p-6 border-2 border-white/30 hover:bg-white/30 transition-all duration-300"
+                aria-label={isPlaying ? 'Pause video' : 'Play video'}
+              >
+                {isPlaying ? (
+                  <FaPause className="text-white text-3xl" />
+                ) : (
+                  <FaPlay className="text-white text-3xl ml-1" />
+                )}
+              </motion.button>
+            </div>
+            {/* Video Title Overlay */}
+            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+              <h3 className="text-white text-xl font-semibold mb-2">The Emergency RV Repair Experience</h3>
+              <p className="text-gray-300 text-sm">See why thousands trust us for their luxury motorhome needs</p>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Stats Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
