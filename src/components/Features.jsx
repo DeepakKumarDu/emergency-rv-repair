@@ -1,11 +1,20 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { FaPlay, FaPause } from 'react-icons/fa'
 import { videos } from '../config/videos'
 
 const Features = () => {
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const videoRef = useRef(null)
+
+  // Auto-play video when component mounts
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(err => {
+        console.log('Video play error:', err)
+      })
+    }
+  }, [])
 
   const toggleVideo = () => {
     if (videoRef.current) {
@@ -106,15 +115,16 @@ const Features = () => {
             <video
               ref={videoRef}
               className="w-full h-full object-cover"
-              poster={videos.features.poster}
+              poster={videos.services.poster}
+              autoPlay
               loop
               muted
               playsInline
             >
-              <source src={videos.features.src} type="video/mp4" />
+              <source src={videos.services.src} type="video/mp4" />
             </video>
-            {/* Play/Pause Overlay */}
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center">
+            {/* Play/Pause Control Button (only on hover) */}
+            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <motion.button
                 onClick={toggleVideo}
                 whileHover={{ scale: 1.1 }}
