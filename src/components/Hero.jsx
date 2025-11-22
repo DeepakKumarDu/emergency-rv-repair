@@ -100,11 +100,20 @@ const Hero = () => {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1, delay: 0.5 }}
-            className="text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-8 text-shadow leading-tight tracking-tight"
+            className="text-6xl md:text-8xl lg:text-9xl font-bold text-white mb-4 text-shadow leading-tight tracking-tight"
             style={{ fontFamily: 'Inter, sans-serif', fontWeight: 800 }}
           >
             EXPLORE THE ROAD AHEAD
           </motion.h1>
+          
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.6 }}
+            className="text-2xl md:text-3xl lg:text-4xl font-semibold text-primary-gold mb-8 text-shadow uppercase tracking-wider"
+          >
+            SERVICE WHEN YOU NEED IT
+          </motion.h2>
           
           <motion.p
             initial={{ opacity: 0, y: 30 }}
