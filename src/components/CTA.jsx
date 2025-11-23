@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-import { FaPhone, FaMapMarkerAlt } from 'react-icons/fa'
+import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
 
 const CTA = () => {
   return (
@@ -25,7 +25,7 @@ const CTA = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mb-12">
           {[
             {
               icon: FaPhone,
@@ -33,6 +33,13 @@ const CTA = () => {
               info: '(123) 456-7890',
               link: 'tel:+1234567890',
               description: '24/7 Emergency Line',
+            },
+            {
+              icon: FaEnvelope,
+              title: 'Email Us',
+              info: 'help@emergencyrv.com',
+              link: 'mailto:help@emergencyrv.com',
+              description: 'We respond within 1 hour',
             },
             {
               icon: FaMapMarkerAlt,

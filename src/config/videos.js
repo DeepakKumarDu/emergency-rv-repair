@@ -1,5 +1,6 @@
 // Video Configuration
 // Local videos from public/videos folder
+// Vite serves public folder files at root, so /videos/ works in both dev and production
 
 export const videos = {
   // Video 1: Hero Section Background Video (Homepage) - First Page
